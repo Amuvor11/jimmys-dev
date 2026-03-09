@@ -25,7 +25,7 @@ class SubscriberController extends Controller
             'first_name' => 'nullable|string|max:191',
             'last_name' => 'nullable|string|max:191',
         ];
-        if (config('app.recaptcha_key') && !in_array($request->getHost(), ['localhost', '127.0.0.1'], true)) {
+        if (config('app.recaptcha_key') && !in_array($request->getHost(), config('app.recaptcha_skip_hosts', []), true)) {
             $rules['g-recaptcha-response'] = 'required|recaptcha';
         }
         $request->validate($rules);

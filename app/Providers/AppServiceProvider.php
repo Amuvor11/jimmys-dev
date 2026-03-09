@@ -31,8 +31,12 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Validator::extend('recaptcha', 'App\\Validators\\ReCaptcha@validate');
 
-        // Force HTTPS for asset/url generation when behind a proxy (e.g. Render)
-        if (config('app.env') === 'production' && config('app.url') && strpos(config('app.url'), 'https://') === 0) {
+        // Force HTTPS for asset/url generation only on production (e.g. Render), not locally
+        $appUrl = config('app.url');
+        $isProduction = config('app.env') === 'production';
+        $isHttpsUrl = $appUrl && strpos($appUrl, 'https://') === 0;
+        $isLocalHost = $appUrl && (strpos($appUrl, 'localhost') !== false || strpos($appUrl, '127.0.0.1') !== false);
+        if ($isProduction && $isHttpsUrl && !$isLocalHost) {
             URL::forceScheme('https');
         }
     }

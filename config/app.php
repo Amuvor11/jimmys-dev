@@ -126,6 +126,8 @@ return [
     /* Google Recaptcha Keys */
     'recaptcha_key' => env('GOOGLE_RECAPTCHA_KEY'),
     'recaptcha_secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+    /* Hosts where reCAPTCHA is not loaded (no script, no validation) - e.g. localhost, preview domains */
+    'recaptcha_skip_hosts' => ['localhost', '127.0.0.1', 'jimmys-dev.onrender.com'],
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
